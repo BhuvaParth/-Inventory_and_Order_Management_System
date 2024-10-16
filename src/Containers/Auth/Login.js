@@ -16,16 +16,15 @@ function Login({ handleLogin }) {
       return;
     }
 
-    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    const storedUserData = JSON.parse(localStorage.getItem("userData")) || [];
+    const userFound = storedUserData.find(
+      (user) =>
+        user.email === email && user.password === password && user.role === role
+    );
 
-    if (
-      storedUserData &&
-      storedUserData.email === email &&
-      storedUserData.password === password &&
-      storedUserData.role === role
-    ) {
-      handleLogin();
-      navigate("/");
+    if (userFound) {
+      handleLogin(email); 
+      navigate("/"); 
     } else {
       setError("Invalid email, password, or role");
     }
@@ -91,7 +90,7 @@ function Login({ handleLogin }) {
           <p className="text-gray-600">
             Don't have an account?{" "}
             <Link to="/signup" className="text-blue-500 hover:underline">
-              Sign Up here
+              Signup here
             </Link>
           </p>
         </div>

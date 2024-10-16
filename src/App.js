@@ -14,20 +14,22 @@ import Header from "./Containers/Header";
 function App() {
   const [userData, setUserData] = useState(null);
 
-  const handleLogin = (role) => {
-    const storedUserData = JSON.parse(localStorage.getItem("userData"));
-    setUserData(storedUserData); 
+  const handleLogin = (email) => {
+    const storedUsers = JSON.parse(localStorage.getItem("userData")) || [];
+    const user = storedUsers.find((user) => user.email === email);
+    if (user) {
+      setUserData(user);
+    }
   };
 
   const handleLogout = () => {
     setUserData(null);
-    localStorage.removeItem("userData");
   };
 
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData"));
     if (storedUserData) {
-      setUserData(storedUserData);
+      setUserData(storedUserData[0]); 
     }
   }, []);
 

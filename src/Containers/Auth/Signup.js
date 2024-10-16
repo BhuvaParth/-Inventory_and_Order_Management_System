@@ -24,9 +24,17 @@ function Signup() {
       role,
     };
 
-    localStorage.setItem("userData", JSON.stringify(userData));
+    const existingUsers = JSON.parse(localStorage.getItem("userData")) || [];
+    const emailExists = existingUsers.some((user) => user.email === email);
+    if (emailExists) {
+      setError("This email is already registered");
+      return;
+    }
 
-    setError(""); 
+    existingUsers.push(userData);
+    localStorage.setItem("userData", JSON.stringify(existingUsers));
+
+    setError("");
     navigate("/login");
   };
 
