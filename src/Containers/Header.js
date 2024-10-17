@@ -14,7 +14,7 @@ export default function Header({ userData, handleLogout }) {
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
+            <Link className="flex items-center">
               <span className="text-black text-lg font-bold">Project Ecom</span>
             </Link>
           </div>

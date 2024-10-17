@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -27,6 +27,22 @@ function App() {
   );
 
   const location = useLocation(); 
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const currentUser =
+        JSON.parse(localStorage.getItem("userData"))?.find(
+          (user) => user.isLoggedIn
+        ) || null;
+      setUserData(currentUser);
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const handleLogin = (email) => {
     const existingUsers = JSON.parse(localStorage.getItem("userData")) || [];
