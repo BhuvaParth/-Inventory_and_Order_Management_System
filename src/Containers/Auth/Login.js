@@ -23,8 +23,16 @@ function Login({ handleLogin }) {
     );
 
     if (userFound) {
-      handleLogin(email); 
-      navigate("/"); 
+      const updatedUserData = storedUserData.map(user =>
+        user.email === email ? { ...user, isLoggedIn: true } : user
+      );
+      localStorage.setItem("userData", JSON.stringify(updatedUserData));
+
+      if (role === "admin") {
+        navigate("/admindashboard");
+      } else if (role === "customer") {
+        navigate("/custmerdashboard");
+      }
     } else {
       setError("Invalid email, password, or role");
     }
@@ -42,7 +50,7 @@ function Login({ handleLogin }) {
             <label className="block text-gray-700">Email</label>
             <input
               type="email"
-              className="w-full px-4 py-2 border border-black placeholder-black rounded-lg focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 border border-black placeholder-black rounded-lg"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -54,7 +62,7 @@ function Login({ handleLogin }) {
             <label className="block text-gray-700">Password</label>
             <input
               type="password"
-              className="w-full px-4 py-2 border border-black placeholder-black rounded-lg focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 border border-black placeholder-black rounded-lg"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -65,7 +73,7 @@ function Login({ handleLogin }) {
           <div>
             <label className="block text-gray-700">Role</label>
             <select
-              className="w-full px-4 py-2 border border-black placeholder-black rounded-lg focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 border border-black placeholder-black rounded-lg"
               value={role}
               onChange={(e) => setRole(e.target.value)}
               required
@@ -80,7 +88,7 @@ function Login({ handleLogin }) {
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
           >
             Login
           </button>
